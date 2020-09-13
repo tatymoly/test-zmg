@@ -25,10 +25,10 @@ const Footer = () => {
         </div>
         <div className={classes.social}>
           <p>Follow Us</p>
-          <a href="facebook.com">
+          <a href="https://www.facebook.com" target="_blank">
             <Facebook className={classes.icon} />
           </a>
-          <a href="twitter.com">
+          <a href="https://www.twitter.com" target="_blank">
             <Twitter className={classes.icon} />
           </a>
         </div>
