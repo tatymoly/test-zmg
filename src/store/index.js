@@ -1,21 +1,10 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
-import createSagaMiddleware from "redux-saga"
-
-import saga from "../sagas"
-import votes from "./votes/votesSlice"
-
-const reducer = {
-  votes,
-}
-
-const sagaMiddleware = createSagaMiddleware()
-const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware]
+import { configureStore } from "@reduxjs/toolkit"
+import votes from "./votesSlice"
 
 const store = configureStore({
-  reducer,
-  middleware,
+  reducer: {
+    votes: votes,
+  },
 })
-
-sagaMiddleware.run(saga)
 
 export default store

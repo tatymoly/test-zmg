@@ -7,11 +7,12 @@ import Header from "../header/header"
 import Alert from "../alert/alert"
 import Footer from "../footer/footer"
 
-import { votesActions } from "../../../store/votes/votesSlice"
+import { votesActions } from "../../../store/votesSlice"
 import useStyles from "./styles"
+import data from "../../../assets/data"
 
 const ResultPage = props => {
-  const { handleVoteUp, handleVoteDown, getData, saveData, candidates } = props
+  const { handleVoteUp, handleVoteDown, setData, candidates } = props
   const [showAlert, setShowAlert] = useState(true)
 
   const classes = useStyles()
@@ -21,11 +22,17 @@ const ResultPage = props => {
   }
 
   useEffect(() => {
-    getData()
+    getLocalStorageData()
   }, [])
 
+  const getLocalStorageData = () => {
+    const votes = JSON.parse(localStorage.getItem("candidates"))
+    setData(votes ? votes : data)
+  }
+
   const handleChange = () => {
-    saveData(candidates)
+    const newData = JSON.stringify(candidates)
+    localStorage.setItem("candidates", newData)
   }
 
   useEffect(() => {
@@ -64,7 +71,8 @@ const ResultPage = props => {
 ResultPage.propTypes = {
   handleVoteUp: PropTypes.func.isRequired,
   handleVoteDown: PropTypes.func.isRequired,
-  getData: PropTypes.func.isRequired,
+  setData: PropTypes.func.isRequired,
+  saveData: PropTypes.func.isRequired,
   candidates: PropTypes.arrayOf(PropTypes.shape),
 }
 ResultPage.defaultProps = {
@@ -78,7 +86,7 @@ const mapStateToProps = ({ votes }) => ({
 const mapDispatchToProps = dispatch => ({
   handleVoteUp: id => dispatch(votesActions.voteUp(id)),
   handleVoteDown: id => dispatch(votesActions.voteDown(id)),
-  getData: () => dispatch(votesActions.getVotesFromLocalStorage()),
+  setData: list => dispatch(votesActions.setVotesFromLocalStore(list)),
   saveData: candidates =>
     dispatch(votesActions.setVotesOnLocalStorage(candidates)),
 })

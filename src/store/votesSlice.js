@@ -1,19 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-import initialState from "./votesInitialState"
-
 const votesSlice = createSlice({
   name: "votes",
-  initialState,
+  initialState: {
+    fetching: false,
+    candidates: [],
+  },
   reducers: {
-    getVotesFromLocalStorage: state => {
-      state.fetching = true
-    },
     setVotesFromLocalStore: (state, action) => {
       state.candidates = action.payload
-    },
-    setVotesOnLocalStorage: (state, payload) => {
-      state.fethcing = true
     },
     voteUp: (state, action) => {
       const newCandidates = state.candidates.map(candidate => {
